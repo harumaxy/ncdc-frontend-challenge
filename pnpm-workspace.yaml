@@ -1,0 +1,4 @@
+packages:
+  - frontend
+  - swagger
+  # - backend # Nestjs が pnpm との相性が悪いため、 backend は含めず個別に管理する
