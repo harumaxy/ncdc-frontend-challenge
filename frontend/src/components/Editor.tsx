@@ -10,50 +10,63 @@ import IconButton from './IconButton';
 
 interface EditorFormProps {
   text: string;
-  isEditing: boolean;
+  type: 'title' | 'body';
   onSave: () => void;
   onEdit: () => void;
-  formClass?: string;
-  containerClass?: string;
 }
 
-function EditorForm({
-  text,
-  isEditing,
-  onSave,
-  onEdit,
-  formClass,
-  containerClass,
-}: EditorFormProps) {
+type InputElement = HTMLTextAreaElement | HTMLInputElement;
+
+function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
   const editor = useEditor();
+  const isEditing = type === editor.editTarget;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onChange = (e: React.ChangeEvent<InputElement>) => {
+    editor.setEditText(e.target.value);
+  };
+  const onKeyDown = (e: React.KeyboardEvent<InputElement>) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey || type === 'title')) {
+      onSave();
+    } else if (e.key === 'Escape') {
+      editor.cancelEdit();
+    }
+  };
 
   // 編集状態に入るときに、textarea にフォーカスしてテキスト末尾にカーソルを移動する
   useEffect(() => {
-    if (isEditing && textareaRef.current) {
+    if (!isEditing) return;
+    if (type === 'title' && inputRef.current) {
+      const input = inputRef.current;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+    if (type === 'body' && textareaRef.current) {
       const textarea = textareaRef.current;
       textarea.focus();
       textarea.setSelectionRange(textarea.value.length, textarea.value.length);
     }
-  }, [isEditing]);
+  }, [isEditing, type]);
 
-  const form = isEditing ? (
-    <textarea
-      ref={textareaRef}
-      value={editor.editText}
-      onChange={(e) => editor.setEditText(e.target.value)}
-      className="w-full block h-full border-none outline-none bg-transparent resize-none"
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-          onSave();
-        } else if (e.key === 'Escape') {
-          editor.cancelEdit();
-        }
-      }}
-    />
-  ) : (
-    <div className="w-full h-full whitespace-break-spaces">{text}</div>
-  );
+  const form =
+    type === 'title' ? (
+      <input
+        ref={inputRef}
+        type="text"
+        value={editor.editText}
+        className="w-full block h-full border-none outline-none bg-transparent resize-none"
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+    ) : (
+      <textarea
+        ref={textareaRef}
+        value={editor.editText}
+        className="w-full block h-full border-none outline-none bg-transparent resize-none"
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+    );
   const buttons = isEditing ? (
     <>
       <IconButton
@@ -69,9 +82,19 @@ function EditorForm({
   );
 
   return (
-    <div className={`flex gap-[40px] items-start ${containerClass ?? ''}`}>
-      <div className={`pb-[20px] p-[30px] flex-1 flex-col ${formClass ?? ''}`}>
-        {form}
+    <div
+      className={`flex gap-[40px] items-start ${type === 'body' ? 'flex-1' : ''}`}
+    >
+      <div
+        className={`pb-[20px] p-[30px] flex-1 flex-col ${
+          type === 'title' ? 'text-2xl font-bold' : 'bg-white flex-1 h-full'
+        }`}
+      >
+        {isEditing ? (
+          form
+        ) : (
+          <div className="w-full h-full whitespace-break-spaces">{text}</div>
+        )}
       </div>
       <div className="flex gap-2 w-[160px]">{buttons}</div>
     </div>
@@ -105,8 +128,8 @@ export default function Editor({ content }: { content: Content }) {
       <div className="h-full flex flex-col p-[30px] rounded-[16px] bg-[#F5F8FA]">
         {/* Title section */}
         <EditorForm
-          isEditing={editor.editTarget === 'title'}
           text={content.title ?? ''}
+          type="title"
           onEdit={() => editor.edit('title', content.title ?? '')}
           onSave={() => {
             updateMutation.mutate({
@@ -115,13 +138,12 @@ export default function Editor({ content }: { content: Content }) {
             });
             editor.cancelEdit();
           }}
-          formClass="text-2xl font-bold"
         />
 
         {/* Body section */}
         <EditorForm
-          isEditing={editor.editTarget === 'body'}
           text={content.body ?? ''}
+          type="body"
           onEdit={() => editor.edit('body', content.body ?? '')}
           onSave={() => {
             updateMutation.mutate({
@@ -130,8 +152,6 @@ export default function Editor({ content }: { content: Content }) {
             });
             editor.cancelEdit();
           }}
-          formClass="bg-white flex-1 h-full"
-          containerClass="flex-1"
         />
       </div>
     </div>
