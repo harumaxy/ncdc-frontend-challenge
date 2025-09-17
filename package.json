@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r run build",
-    "dev": "pnpm build && pnpm -r run dev"
+    "dev": "pnpm build && pnpm -r run dev",
+    "test": "pnpm -r run test"
   },
   "devDependencies": {
     "eslint": "^9.33.0",
