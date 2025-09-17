@@ -2,7 +2,14 @@
   "name": "@ncdc-frontend-challenge/swagger",
   "version": "1.0.0",
   "scripts": {
-    "build": "orval && tsc"
+    "build": "orval && tsc && prettier src/**/* -w"
+  },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "packageManager": "pnpm@10.12.2",
   "devDependencies": {
