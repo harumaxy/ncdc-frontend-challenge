@@ -62,12 +62,12 @@ function EditorForm({
   const buttons = isEditing ? (
     <>
       <IconButton
-        size={16}
+        size={'w-16'}
         icon="cancel"
         variant="ghost"
         onClick={handleCancel}
       />
-      <IconButton size={16} icon="save" onClick={handleSave} />
+      <IconButton size={'w-16'} icon="save" onClick={handleSave} />
     </>
   ) : (
     <IconButton icon="edit" onClick={() => setIsEditing(true)} />
