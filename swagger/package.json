@@ -1,5 +1,17 @@
 {
   "name": "@ncdc-frontend-challenge/swagger",
   "version": "1.0.0",
-  "packageManager": "pnpm@10.12.2"
+  "scripts": {
+    "build": "orval && tsc"
+  },
+  "packageManager": "pnpm@10.12.2",
+  "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "@types/react": "^19.1.13",
+    "msw": "^2.11.2",
+    "orval": "^7.11.2"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.89.0"
+  }
 }
