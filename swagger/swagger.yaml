@@ -1,4 +1,4 @@
-# http://localhost:3000/api-yaml よりコピー
+# http://localhost:3000/api-yaml からコピー
 openapi: 3.0.0
 paths:
   /content:
