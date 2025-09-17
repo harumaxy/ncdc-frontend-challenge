@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Page } from '../hooks/usePages';
 import IconButton from './IconButton';
 
@@ -6,11 +6,18 @@ interface EditorFormProps {
   initialText: string;
   onUpdate: (text: string) => void;
   formClass?: string;
+  containerClass?: string;
 }
 
-function EditorForm({ initialText, onUpdate, formClass }: EditorFormProps) {
+function EditorForm({
+  initialText,
+  onUpdate,
+  formClass,
+  containerClass,
+}: EditorFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(initialText);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSave = () => {
     onUpdate(editValue);
@@ -22,25 +29,38 @@ function EditorForm({ initialText, onUpdate, formClass }: EditorFormProps) {
     setIsEditing(false);
   };
 
+  useEffect(() => {
+    setEditValue(initialText);
+  }, [initialText]);
+
+  // 編集状態に入るときに、textarea にフォーカスして最後尾にカーソルを移動する
+  useEffect(() => {
+    if (isEditing && textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    }
+  }, [isEditing]);
+
   const form = isEditing ? (
     <textarea
+      ref={textareaRef}
       value={editValue}
       onChange={(e) => setEditValue(e.target.value)}
       className="w-full block h-full border-none outline-none bg-transparent resize-none"
       onKeyDown={(e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
           handleSave();
         } else if (e.key === 'Escape') {
           handleCancel();
         }
       }}
-      autoFocus
     />
   ) : (
-    <span className="w-full h-full">{initialText}</span>
+    <div className="w-full h-full whitespace-break-spaces">{initialText}</div>
   );
   const buttons = isEditing ? (
-    <div className="flex gap-2">
+    <>
       <IconButton
         size={16}
         icon="cancel"
@@ -48,17 +68,17 @@ function EditorForm({ initialText, onUpdate, formClass }: EditorFormProps) {
         onClick={handleCancel}
       />
       <IconButton size={16} icon="save" onClick={handleSave} />
-    </div>
+    </>
   ) : (
     <IconButton icon="edit" onClick={() => setIsEditing(true)} />
   );
 
   return (
-    <div className={`flex gap-[40px] items-start justify-between`}>
-      <div className={`pb-[20px] p-[30px] flex-1 ${formClass ?? ''}`}>
+    <div className={`flex gap-[40px] items-start ${containerClass ?? ''}`}>
+      <div className={`pb-[20px] p-[30px] flex-1 flex-col ${formClass ?? ''}`}>
         {form}
       </div>
-      {buttons}
+      <div className="flex gap-2 w-[160px]">{buttons}</div>
     </div>
   );
 }
@@ -89,7 +109,8 @@ export default function Editor({
         <EditorForm
           initialText={page.content}
           onUpdate={(newTitle) => onContentUpdate(page.id, newTitle)}
-          formClass="bg-white"
+          formClass="bg-white flex-1 h-full"
+          containerClass="flex-1"
         />
       </div>
     </div>
