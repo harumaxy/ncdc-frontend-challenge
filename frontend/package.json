@@ -13,8 +13,11 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@ncdc-frontend-challenge/swagger": "workspace:*",
+    "@tailwindcss/vite": "^4.1.13",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.13.2",
