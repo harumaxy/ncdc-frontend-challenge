@@ -1,39 +1,34 @@
-import type { Content } from '@ncdc-frontend-challenge/swagger';
-import { useEffect, useRef, useState } from 'react';
+import {
+  getContentControllerGetAllContentListQueryKey,
+  useContentControllerUpdateContent,
+  type Content,
+} from '@ncdc-frontend-challenge/swagger';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
+import { useEditor } from '../hooks/useEditor';
 import IconButton from './IconButton';
 
 interface EditorFormProps {
-  initialText: string;
-  onUpdate: (text: string) => void;
+  text: string;
+  isEditing: boolean;
+  onSave: () => void;
+  onEdit: () => void;
   formClass?: string;
   containerClass?: string;
 }
 
 function EditorForm({
-  initialText,
-  onUpdate,
+  text,
+  isEditing,
+  onSave,
+  onEdit,
   formClass,
   containerClass,
 }: EditorFormProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(initialText);
+  const editor = useEditor();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSave = () => {
-    onUpdate(editValue);
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setEditValue(initialText);
-    setIsEditing(false);
-  };
-
-  useEffect(() => {
-    setEditValue(initialText);
-  }, [initialText]);
-
-  // 編集状態に入るときに、textarea にフォーカスして最後尾にカーソルを移動する
+  // 編集状態に入るときに、textarea にフォーカスしてテキスト末尾にカーソルを移動する
   useEffect(() => {
     if (isEditing && textareaRef.current) {
       const textarea = textareaRef.current;
@@ -45,19 +40,19 @@ function EditorForm({
   const form = isEditing ? (
     <textarea
       ref={textareaRef}
-      value={editValue}
-      onChange={(e) => setEditValue(e.target.value)}
+      value={editor.editText}
+      onChange={(e) => editor.setEditText(e.target.value)}
       className="w-full block h-full border-none outline-none bg-transparent resize-none"
       onKeyDown={(e) => {
         if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-          handleSave();
+          onSave();
         } else if (e.key === 'Escape') {
-          handleCancel();
+          editor.cancelEdit();
         }
       }}
     />
   ) : (
-    <div className="w-full h-full whitespace-break-spaces">{initialText}</div>
+    <div className="w-full h-full whitespace-break-spaces">{text}</div>
   );
   const buttons = isEditing ? (
     <>
@@ -65,12 +60,12 @@ function EditorForm({
         size={'w-16'}
         icon="cancel"
         variant="ghost"
-        onClick={handleCancel}
+        onClick={editor.cancelEdit}
       />
-      <IconButton size={'w-16'} icon="save" onClick={handleSave} />
+      <IconButton size={'w-16'} icon="save" onClick={onSave} />
     </>
   ) : (
-    <IconButton icon="edit" onClick={() => setIsEditing(true)} />
+    <IconButton icon="edit" onClick={onEdit} />
   );
 
   return (
@@ -84,21 +79,57 @@ function EditorForm({
 }
 
 export default function Editor({ content }: { content: Content }) {
+  const queryClient = useQueryClient();
+  const updateMutation = useContentControllerUpdateContent({
+    mutation: {
+      // 楽観的更新
+      onMutate: async (updatedContent) => {
+        const listKey = getContentControllerGetAllContentListQueryKey();
+        const previousContents = queryClient.getQueryData<{ data: Content[] }>(
+          listKey,
+        );
+        queryClient.setQueryData<{ data: Content[] }>(listKey, (old) => ({
+          ...old,
+          data: (old?.data ?? []).map((c) =>
+            c.id === updatedContent.id ? { ...c, ...updatedContent.data } : c,
+          ),
+        }));
+        return { previousContents };
+      },
+    },
+  });
+  const editor = useEditor();
+
   return (
     <div className="p-[40px] flex-1 flex flex-col">
       <div className="h-full flex flex-col p-[30px] rounded-[16px] bg-[#F5F8FA]">
         {/* Title section */}
         <EditorForm
-          initialText={content.title ?? ''}
-          onUpdate={(_newTitle) => {}}
+          isEditing={editor.editTarget === 'title'}
+          text={content.title ?? ''}
+          onEdit={() => editor.edit('title', content.title ?? '')}
+          onSave={() => {
+            updateMutation.mutate({
+              id: content.id,
+              data: { title: editor.editText, body: content.body ?? '' },
+            });
+            editor.cancelEdit();
+          }}
           formClass="text-2xl font-bold"
         />
 
-        {/* Content section */}
-
+        {/* Body section */}
         <EditorForm
-          initialText={content.body ?? ''}
-          onUpdate={(_newBody) => {}}
+          isEditing={editor.editTarget === 'body'}
+          text={content.body ?? ''}
+          onEdit={() => editor.edit('body', content.body ?? '')}
+          onSave={() => {
+            updateMutation.mutate({
+              id: content.id,
+              data: { title: content.title ?? '', body: editor.editText },
+            });
+            editor.cancelEdit();
+          }}
           formClass="bg-white flex-1 h-full"
           containerClass="flex-1"
         />
