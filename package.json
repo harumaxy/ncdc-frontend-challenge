@@ -2,7 +2,8 @@
   "name": "ncdc-frontend-challenge",
   "private": true,
   "scripts": {
-    "build": "pnpm -r run build"
+    "build": "pnpm -r run build",
+    "dev": "pnpm build && pnpm -r run dev"
   },
   "devDependencies": {
     "eslint": "^9.33.0",
