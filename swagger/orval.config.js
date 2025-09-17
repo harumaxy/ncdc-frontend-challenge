@@ -6,6 +6,7 @@ module.exports = {
       schemas: 'src/model',
       client: 'react-query',
       httpClient: "fetch",
+      baseUrl: "http://localhost:3000",
       mock: true,
     },
     input: {
