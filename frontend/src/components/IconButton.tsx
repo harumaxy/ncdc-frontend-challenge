@@ -1,10 +1,11 @@
 interface IconButtonProps {
   icon: 'edit' | 'save' | 'cancel' | 'new-page' | 'done';
+  variant?: 'primary' | 'inverted' | 'ghost';
   onClick: () => void;
   className?: string;
 }
 
-const variants = {
+const icons = {
   edit: {
     src: '/icon/edit.svg',
     label: 'Edit',
@@ -27,25 +28,30 @@ const variants = {
   },
 };
 
-export default function IconButton({ icon, onClick }: IconButtonProps) {
-  if (!variants[icon]) {
-    throw new Error(`Unknown icon variant: ${icon}`);
-  }
+const variantColors = {
+  primary: 'text-white bg-primary',
+  inverted: 'text-primary bg-white border border-primary',
+  ghost: 'text-white bg-brand-gray',
+};
 
-  const { src, label } = variants[icon];
+export default function IconButton({
+  icon,
+  onClick,
+  variant = 'primary',
+}: IconButtonProps) {
+  const { src, label } = icons[icon];
+  const colors = variantColors[variant];
 
   return (
     <button
       onClick={onClick}
       className={`
-        inline-flex items-center gap-2 px-4 py-2
-        bg-primary rounded-md
-        transition-colors
-        font-medium text-sm
+        flex flex-col items-center py-1 w-32 rounded-md
+        ${colors}
       `}
     >
-      <img src={src} alt={label} width="16" height="16" className="w-4 h-4" />
-      {label}
+      <img src={src} alt={label} width="16" height="16" className="w-6 h-6" />
+      <span>{label}</span>
     </button>
   );
 }

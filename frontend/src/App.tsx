@@ -1,5 +1,5 @@
 import Editor from './components/Editor';
-import Sidebar from './components/SidebarFooter';
+import Sidebar from './components/Sidebar';
 import { usePages } from './hooks/usePages';
 
 function App() {
