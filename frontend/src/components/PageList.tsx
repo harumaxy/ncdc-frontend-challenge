@@ -21,26 +21,24 @@ export default function PageList({
   const [isEditing, setIsEditing] = React.useState(false);
 
   return (
-    <div className="w-80 border-r border-gray-200 flex flex-col">
-      <div className="pl-[40px] flex-1">
-        {/* Header */}
-        <div className="pt-[30px] pb-[20px]">
-          <HeaderLogo />
-        </div>
+    <div className="h-screen w-80 border-r border-gray-200 flex flex-col">
+      {/* Header */}
+      <div className="pl-[40px] pt-[30px] pb-[20px]">
+        <HeaderLogo />
+      </div>
 
-        {/* Pages list */}
-        <div className="flex-1 flex flex-col gap-1 overflow-y-auto">
-          {pages.map((page) => (
-            <ListItem
-              key={page.id}
-              page={page}
-              isActive={currentPageId === page.id}
-              onClick={() => onPageSelect(page.id)}
-              onDelete={() => onPageDelete(page.id)}
-              isEditing={isEditing}
-            />
-          ))}
-        </div>
+      {/* Pages list */}
+      <div className="pl-[40px] flex-1 flex flex-col gap-1 overflow-y-auto">
+        {pages.map((page) => (
+          <ListItem
+            key={page.id}
+            page={page}
+            isActive={currentPageId === page.id}
+            onClick={() => onPageSelect(page.id)}
+            onDelete={() => onPageDelete(page.id)}
+            isEditing={isEditing}
+          />
+        ))}
       </div>
 
       {/* Bottom navigation */}
