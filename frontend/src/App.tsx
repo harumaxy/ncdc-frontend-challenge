@@ -1,5 +1,5 @@
 import Editor from './components/Editor';
-import Sidebar from './components/Sidebar';
+import PageList from './components/PageList';
 import { usePages } from './hooks/usePages';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="flex h-screen bg-white font-noto-sans-jp">
-      <Sidebar
+      <PageList
         pages={pages}
         currentPageId={currentPageId}
         onPageSelect={setCurrentPageId}

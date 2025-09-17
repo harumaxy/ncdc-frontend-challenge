@@ -1,10 +1,3 @@
-interface IconButtonProps {
-  icon: 'edit' | 'save' | 'cancel' | 'new-page' | 'done';
-  variant?: 'primary' | 'inverted' | 'ghost';
-  onClick: () => void;
-  className?: string;
-}
-
 const icons = {
   edit: {
     src: '/icon/edit.svg',
@@ -33,6 +26,13 @@ const variantColors = {
   inverted: 'text-primary bg-white border border-primary',
   ghost: 'text-white bg-brand-gray',
 };
+
+interface IconButtonProps {
+  icon: keyof typeof icons;
+  variant?: keyof typeof variantColors;
+  onClick?: () => void;
+  className?: string;
+}
 
 export default function IconButton({
   icon,
