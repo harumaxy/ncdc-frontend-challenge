@@ -17,7 +17,10 @@ export default function ContentList() {
   const isEditingList = editor.editTarget === 'list';
 
   return (
-    <div className="h-screen w-80 border-r border-gray-200 flex flex-col">
+    <div
+      className="h-screen w-80 border-r border-gray-200 flex flex-col"
+      data-testid="content-list"
+    >
       {/* Header */}
       <div className="pl-[40px] pt-[30px] pb-[20px]">
         <HeaderLogo />
@@ -127,6 +130,7 @@ function SidebarFooter({ isEditing }: SidebarFooterProps) {
         icon="edit"
         onClick={() => editor.edit('list')}
         className="w-full"
+        testid="list-edit-button"
       />
     );
   }, [isEditing]);

@@ -33,6 +33,7 @@ interface IconButtonProps {
   variant?: keyof typeof variantColors;
   onClick?: () => void;
   className?: string;
+  testid?: string;
 }
 
 export default function IconButton({
@@ -40,6 +41,7 @@ export default function IconButton({
   onClick,
   variant = 'primary',
   size = 'w-32',
+  testid,
 }: IconButtonProps) {
   const { src, label } = icons[icon];
   const colors = variantColors[variant];
@@ -51,6 +53,7 @@ export default function IconButton({
         flex flex-col items-center py-1 ${size} rounded-md
         ${colors}
       `}
+      data-testid={testid}
     >
       <img src={src} alt={label} width="24" />
       <span>{label}</span>

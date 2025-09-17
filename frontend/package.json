@@ -10,7 +10,10 @@
     "format": "prettier -w src/**/* worker/**/*",
     "preview": "npm run build && vite preview",
     "deploy": "npm run build && wrangler deploy",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "test:setup": "pnpm exec playwright install",
+    "test": "playwright test",
+    "test:debug": "pnpm test --debug"
   },
   "dependencies": {
     "@ncdc-frontend-challenge/swagger": "workspace:*",
@@ -24,15 +27,22 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.13.2",
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.55.0",
     "@tanstack/eslint-plugin-query": "^4.39.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/browser": "^3.2.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "msw": "^2.11.2",
+    "playwright": "^1.55.0",
+    "playwright-msw": "^3.0.1",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1",
     "wrangler": "^4.37.1"
   }
 }

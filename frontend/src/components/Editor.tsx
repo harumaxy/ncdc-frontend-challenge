@@ -74,11 +74,17 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
         icon="cancel"
         variant="ghost"
         onClick={editor.cancelEdit}
+        data-testid={`${type}-cancel-button`}
       />
-      <IconButton size={'w-16'} icon="save" onClick={onSave} />
+      <IconButton
+        size={'w-16'}
+        icon="save"
+        onClick={onSave}
+        testid={`${type}-save-button`}
+      />
     </>
   ) : (
-    <IconButton icon="edit" onClick={onEdit} />
+    <IconButton icon="edit" onClick={onEdit} testid={`${type}-edit-button`} />
   );
 
   return (
