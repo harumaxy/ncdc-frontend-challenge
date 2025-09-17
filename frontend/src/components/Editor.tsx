@@ -1,128 +1,64 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Page } from '../hooks/usePages';
 import IconButton from './IconButton';
 
-interface TitleEditorProps {
-  title: string;
-  onTitleUpdate: (newTitle: string) => void;
+interface EditorFormProps {
+  initialText: string;
+  onUpdate: (text: string) => void;
+  formClass?: string;
 }
 
-function TitleEditor({ title, onTitleUpdate }: TitleEditorProps) {
+function EditorForm({ initialText, onUpdate, formClass }: EditorFormProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(title);
-
-  useEffect(() => {
-    setEditValue(title);
-  }, [title]);
+  const [editValue, setEditValue] = useState(initialText);
 
   const handleSave = () => {
-    onTitleUpdate(editValue);
+    onUpdate(editValue);
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setEditValue(title);
+    setEditValue(initialText);
     setIsEditing(false);
   };
 
-  if (isEditing) {
-    return (
-      <div className="space-y-3">
-        <input
-          type="text"
-          value={editValue}
-          onChange={(e) => setEditValue(e.target.value)}
-          className="text-2xl font-bold w-full border-none outline-none bg-transparent"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handleSave();
-            } else if (e.key === 'Escape') {
-              handleCancel();
-            }
-          }}
-          autoFocus
-        />
-        <div className="flex gap-2">
-          <IconButton icon="save" onClick={handleSave} />
-          <IconButton icon="cancel" onClick={handleCancel} />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center justify-between">
-      <h1
-        className="text-2xl font-bold cursor-pointer hover:bg-gray-50 p-1 rounded"
-        onClick={() => setIsEditing(true)}
-      >
-        {title}
-      </h1>
-      <IconButton icon="edit" onClick={() => setIsEditing(true)} />
-    </div>
+  const form = isEditing ? (
+    <textarea
+      value={editValue}
+      onChange={(e) => setEditValue(e.target.value)}
+      className="w-full block h-full border-none outline-none bg-transparent resize-none"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleSave();
+        } else if (e.key === 'Escape') {
+          handleCancel();
+        }
+      }}
+      autoFocus
+    />
+  ) : (
+    <span className="w-full h-full">{initialText}</span>
   );
-}
-
-interface ContentEditorProps {
-  content: string;
-  onContentUpdate: (newContent: string) => void;
-}
-
-function ContentEditor({ content, onContentUpdate }: ContentEditorProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(content);
-
-  useEffect(() => {
-    setEditValue(content);
-  }, [content]);
-
-  const handleSave = () => {
-    onContentUpdate(editValue);
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setEditValue(content);
-    setIsEditing(false);
-  };
-
-  if (isEditing) {
-    return (
-      <div className="h-full flex flex-col space-y-3">
-        <textarea
-          value={editValue}
-          onChange={(e) => setEditValue(e.target.value)}
-          className="flex-1 w-full resize-none border-none outline-none text-sm leading-relaxed"
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') {
-              handleCancel();
-            }
-          }}
-          autoFocus
-        />
-        <div className="flex gap-2">
-          <IconButton icon="save" onClick={handleSave} />
-          <IconButton icon="cancel" onClick={handleCancel} />
-        </div>
-      </div>
-    );
-  }
+  const buttons = isEditing ? (
+    <div className="flex gap-2">
+      <IconButton
+        size={16}
+        icon="cancel"
+        variant="ghost"
+        onClick={handleCancel}
+      />
+      <IconButton size={16} icon="save" onClick={handleSave} />
+    </div>
+  ) : (
+    <IconButton icon="edit" onClick={() => setIsEditing(true)} />
+  );
 
   return (
-    <div className="relative group h-full">
-      <div
-        className="text-sm leading-relaxed cursor-pointer h-full hover:bg-gray-50 p-2 rounded"
-        onClick={() => setIsEditing(true)}
-      >
-        {content}
+    <div className={`flex gap-[40px] items-start justify-between`}>
+      <div className={`pb-[20px] p-[30px] flex-1 ${formClass ?? ''}`}>
+        {form}
       </div>
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100">
-        <IconButton
-          icon="edit"
-          onClick={() => setIsEditing(true)}
-          className="text-xs px-2 py-1"
-        />
-      </div>
+      {buttons}
     </div>
   );
 }
@@ -140,22 +76,21 @@ export default function Editor({
 }: EditorProps) {
   return (
     <div className="p-[40px] flex-1 flex flex-col">
-      <div className="p-[30px] rounded-[16px] bg-[#F5F8FA]">
+      <div className="h-full flex flex-col p-[30px] rounded-[16px] bg-[#F5F8FA]">
         {/* Title section */}
-        <TitleEditor
-          title={page.title}
-          onTitleUpdate={(newTitle) => onTitleUpdate(page.id, newTitle)}
+        <EditorForm
+          initialText={page.title}
+          onUpdate={(newTitle) => onTitleUpdate(page.id, newTitle)}
+          formClass="text-2xl font-bold"
         />
 
         {/* Content section */}
-        <div className="flex-1 p-6">
-          <ContentEditor
-            content={page.content}
-            onContentUpdate={(newContent) =>
-              onContentUpdate(page.id, newContent)
-            }
-          />
-        </div>
+
+        <EditorForm
+          initialText={page.content}
+          onUpdate={(newTitle) => onContentUpdate(page.id, newTitle)}
+          formClass="bg-white"
+        />
       </div>
     </div>
   );

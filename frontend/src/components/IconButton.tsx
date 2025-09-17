@@ -24,11 +24,12 @@ const icons = {
 const variantColors = {
   primary: 'text-white bg-primary',
   inverted: 'text-primary bg-white border border-primary',
-  ghost: 'text-white bg-brand-gray',
+  ghost: 'text-white bg-ghost',
 };
 
 interface IconButtonProps {
   icon: keyof typeof icons;
+  size?: number;
   variant?: keyof typeof variantColors;
   onClick?: () => void;
   className?: string;
@@ -36,6 +37,7 @@ interface IconButtonProps {
 
 export default function IconButton({
   icon,
+  size = 32,
   onClick,
   variant = 'primary',
 }: IconButtonProps) {
@@ -46,11 +48,11 @@ export default function IconButton({
     <button
       onClick={onClick}
       className={`
-        flex flex-col items-center py-1 w-32 rounded-md
+        flex flex-col items-center py-1 w-${size} rounded-md
         ${colors}
       `}
     >
-      <img src={src} alt={label} width="16" height="16" className="w-6 h-6" />
+      <img src={src} alt={label} width="24" />
       <span>{label}</span>
     </button>
   );

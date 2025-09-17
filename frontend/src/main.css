@@ -10,4 +10,5 @@ html, body, #root {
 @theme {
   --color-brand-gray: #F5F8FA;
   --color-primary: #32A8F8;
+  --color-ghost: #B3B3B3;
 }
