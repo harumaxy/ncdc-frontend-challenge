@@ -1,10 +1,5 @@
 import { useState } from 'react';
-
-interface Page {
-  id: string;
-  title: string;
-  content: string;
-}
+import type { Page } from '../hooks/usePages';
 
 interface EditorProps {
   page: Page;
@@ -12,14 +7,18 @@ interface EditorProps {
   onContentUpdate: (pageId: string, newContent: string) => void;
 }
 
-export default function Editor({ page, onTitleUpdate, onContentUpdate }: EditorProps) {
+export default function Editor({
+  page,
+  onTitleUpdate,
+  onContentUpdate,
+}: EditorProps) {
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingContent, setEditingContent] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 bg-brand-gray flex flex-col">
       {/* Title section */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-[40px]  border-b border-gray-200">
         {editingTitle ? (
           <input
             type="text"

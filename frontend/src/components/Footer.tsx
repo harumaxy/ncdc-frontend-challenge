@@ -1,15 +1,17 @@
-export default function Footer() {
+interface Props {
+  onPageAdd: () => void;
+}
+
+export default function SidebarFooter({ onPageAdd }: Props) {
   return (
     <div className="p-4 border-t border-gray-200 space-y-2">
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">学習は楽である</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">学問のすゝめ</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">舞姫</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">奥の細道</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">徒然草</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">吾輩は猫である</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">坊ちゃんと私</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">注文の多い料理店</div>
-      <div className="text-sm text-gray-600 cursor-pointer hover:text-gray-800">新宿複雑奇愛</div>
+      {/* Add page button */}
+      <button
+        className="mt-4 w-full p-2 border-2 border-dashed border-gray-300 rounded text-gray-500 hover:border-gray-400 hover:text-gray-600"
+        onClick={onPageAdd}
+      >
+        + 新しいページ
+      </button>
     </div>
   );
 }

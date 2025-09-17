@@ -5,8 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'bg-editor-section': '#F5F8FA',
-        'bg-list-hover': '#F5F8FA',
+        'brand-gray': '#F5F8FA',
         primary: '#32A8F8',
       },
       fontFamily: {
