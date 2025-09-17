@@ -24,13 +24,20 @@ function App() {
         onPageAdd={addNewPage}
       />
 
-      {currentPage && (
-        <Editor
-          page={currentPage}
-          onTitleUpdate={updatePageTitle}
-          onContentUpdate={updatePageContent}
-        />
-      )}
+      <div className="flex flex-1 flex-col">
+        {currentPage && (
+          <Editor
+            page={currentPage}
+            onTitleUpdate={updatePageTitle}
+            onContentUpdate={updatePageContent}
+          />
+        )}
+        <div className="flex w-full px-[30px] pb-4 justify-between">
+          <div>Copyright © 2025 ~ </div>
+
+          <div>運営会社</div>
+        </div>
+      </div>
     </div>
   );
 }
