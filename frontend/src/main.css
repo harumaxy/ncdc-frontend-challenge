@@ -6,3 +6,8 @@ html, body, #root {
   padding: 0;
   font-family: 'Noto Sans JP', sans-serif;
 }
+
+@theme {
+  --color-brand-gray: #F5F8FA;
+  --color-primary: #32A8F8;
+}
