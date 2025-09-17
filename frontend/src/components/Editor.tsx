@@ -1,5 +1,5 @@
+import type { Content } from '@ncdc-frontend-challenge/swagger';
 import { useEffect, useRef, useState } from 'react';
-import type { Page } from '../hooks/usePages';
 import IconButton from './IconButton';
 
 interface EditorFormProps {
@@ -83,32 +83,22 @@ function EditorForm({
   );
 }
 
-interface EditorProps {
-  page: Page;
-  onTitleUpdate: (pageId: string, newTitle: string) => void;
-  onContentUpdate: (pageId: string, newContent: string) => void;
-}
-
-export default function Editor({
-  page,
-  onTitleUpdate,
-  onContentUpdate,
-}: EditorProps) {
+export default function Editor({ content }: { content: Content }) {
   return (
     <div className="p-[40px] flex-1 flex flex-col">
       <div className="h-full flex flex-col p-[30px] rounded-[16px] bg-[#F5F8FA]">
         {/* Title section */}
         <EditorForm
-          initialText={page.title}
-          onUpdate={(newTitle) => onTitleUpdate(page.id, newTitle)}
+          initialText={content.title ?? ''}
+          onUpdate={(_newTitle) => {}}
           formClass="text-2xl font-bold"
         />
 
         {/* Content section */}
 
         <EditorForm
-          initialText={page.content}
-          onUpdate={(newTitle) => onContentUpdate(page.id, newTitle)}
+          initialText={content.body ?? ''}
+          onUpdate={(_newBody) => {}}
           formClass="bg-white flex-1 h-full"
           containerClass="flex-1"
         />
