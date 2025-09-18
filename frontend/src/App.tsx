@@ -2,6 +2,7 @@ import {
   useContentControllerGetAllContentList,
   type Content,
 } from '@ncdc-frontend-challenge/swagger';
+import { useMemo } from 'react';
 import Editor from './components/Editor';
 import Sidebar from './components/Sidebar';
 import { useEditor } from './hooks/useEditor';
@@ -10,8 +11,9 @@ function App() {
   const editor = useEditor();
   const result = useContentControllerGetAllContentList<{ data: Content[] }>();
 
-  const selectedContent = result.data?.data.find(
-    (content) => content.id === editor.selectedId,
+  const selectedContent = useMemo(
+    () => result.data?.data.find((content) => content.id === editor.selectedId),
+    [result.data?.data, editor.selectedId],
   );
 
   return (

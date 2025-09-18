@@ -36,6 +36,8 @@ interface IconButtonProps {
   testid?: string;
 }
 
+import { useMemo } from 'react';
+
 export default function IconButton({
   icon,
   onClick,
@@ -43,8 +45,9 @@ export default function IconButton({
   size = 'w-32',
   testid,
 }: IconButtonProps) {
-  const { src, label } = icons[icon];
-  const colors = variantColors[variant];
+  const iconData = useMemo(() => icons[icon], [icon]);
+  const colors = useMemo(() => variantColors[variant], [variant]);
+  const { src, label } = iconData;
 
   return (
     <button
