@@ -1,4 +1,4 @@
-.PHONY: install-pnpm install build dev start test
+.PHONY: install-pnpm install build dev start install-test-deps test
 
 install-pnpm:
 	npm i -g pnpm
@@ -19,6 +19,9 @@ dev:
 	wait
 
 start: install build dev
+
+install-test-deps:
+	cd ./frontend && pnpm playwright install
 
 test:
 	git checkout backend/data/dev.sqlite && \
