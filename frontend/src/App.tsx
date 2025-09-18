@@ -2,8 +2,8 @@ import {
   useContentControllerGetAllContentList,
   type Content,
 } from '@ncdc-frontend-challenge/swagger';
-import ContentList from './components/ContentList';
 import Editor from './components/Editor';
+import Sidebar from './components/Sidebar';
 import { useEditor } from './hooks/useEditor';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="flex h-screen bg-white font-noto-sans-jp">
-      <ContentList />
+      <Sidebar />
 
       <div className="flex flex-1 flex-col">
         {selectedContent ? (

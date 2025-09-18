@@ -11,7 +11,7 @@ import { useEditor } from '../hooks/useEditor';
 import HeaderLogo from './HeaderLogo';
 import IconButton from './IconButton';
 
-export default function ContentList() {
+export default function Sidebar() {
   const contents = useContentControllerGetAllContentList().data?.data ?? [];
   const editor = useEditor();
   const isEditingList = editor.editTarget === 'list';
@@ -19,7 +19,7 @@ export default function ContentList() {
   return (
     <div
       className="h-screen w-80 border-r border-gray-200 flex flex-col"
-      data-testid="content-list"
+      data-testid="sidebar"
     >
       {/* Header */}
       <div className="pl-[40px] pt-[30px] pb-[20px]">

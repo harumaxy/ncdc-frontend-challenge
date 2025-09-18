@@ -61,7 +61,7 @@ test('コンテンツを 作成 > 更新 > 削除 できることを確認する
   // 削除する
   await page.getByTestId('list-edit-button').click();
   await page
-    .getByTestId('content-list')
+    .getByTestId('sidebar')
     .locator('div')
     .filter({ hasText: /^編集されたタイトル$/ })
     .first()
@@ -70,7 +70,7 @@ test('コンテンツを 作成 > 更新 > 削除 できることを確認する
 
   await expect(
     page
-      .getByTestId('content-list')
+      .getByTestId('sidebar')
       .locator('div')
       .filter({ hasText: /^編集されたタイトル$/ }),
   ).not.toBeVisible(); // 削除されたコンテンツがサイドバーから消える
