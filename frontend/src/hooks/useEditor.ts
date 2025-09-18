@@ -16,7 +16,6 @@ interface EditorState {
   edit: (target: EditTarget, initialText?: string) => void;
   cancelEdit: () => void;
   setEditText: (editText: string, type: 'title' | 'body') => void;
-  clearValidationError: () => void;
 }
 
 export const useEditor = create<EditorState>((set, get) => ({
@@ -40,13 +39,11 @@ export const useEditor = create<EditorState>((set, get) => ({
   },
   cancelEdit: () => {
     set({ editTarget: null, editText: '' });
-    get().clearValidationError();
   },
   setEditText: (editText: string, type: 'title' | 'body') => {
     const validation = validate(editText, type);
     set({ editText, validation });
   },
-  clearValidationError: () => set({ validation: { status: 'ok' } }),
 }));
 
 function validate(text: string, type: 'title' | 'body'): Validation {
