@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 const icons = {
   edit: {
     src: '/icon/edit.svg',
@@ -35,8 +37,6 @@ interface IconButtonProps {
   className?: string;
   testid?: string;
 }
-
-import { useMemo } from 'react';
 
 export default function IconButton({
   icon,
