@@ -38,7 +38,7 @@ export const useEditor = create<EditorState>((set, get) => ({
     set({ editTarget, editText: initialText ?? '' });
   },
   cancelEdit: () => {
-    set({ editTarget: null, editText: '' });
+    set({ editTarget: null, editText: '', validation: { status: 'ok' } });
   },
   setEditText: (editText: string, type: 'title' | 'body') => {
     const validation = validate(editText, type);
