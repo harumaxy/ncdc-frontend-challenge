@@ -30,13 +30,13 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
   );
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<InputElement>) => {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey || type === 'title')) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
         onSave();
       } else if (e.key === 'Escape') {
         editor.cancelEdit();
       }
     },
-    [editor, onSave, type],
+    [editor, onSave],
   );
 
   // 編集状態に入るときに、textarea にフォーカスしてテキスト末尾にカーソルを移動する
