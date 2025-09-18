@@ -117,11 +117,13 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
       className={`flex gap-[40px] items-start ${type === 'body' ? 'flex-1' : ''}`}
     >
       <div
-        className={`pb-[20px] p-[30px] flex-1 flex-col ${
+        className={`flex-1 flex-col rounded-[8px] ${
           type === 'title'
-            ? 'text-2xl font-bold'
-            : 'bg-white flex-1 h-full rounded-[8px]'
-        }`}
+            ? `px-[30px] py-2 text-2xl font-bold ${isEditing ? 'bg-white' : ''}`
+            : 'bg-white h-full p-[30px]'
+        }
+        ${isEditing ? 'border border-primary' : ''}
+        `}
       >
         {isEditing ? (
           <>
@@ -195,7 +197,7 @@ export default function Editor({ content }: { content: Content }) {
 
   return (
     <div className="p-[40px] flex-1 flex flex-col">
-      <div className="h-full flex flex-col p-[30px] rounded-[16px] bg-[#F5F8FA]">
+      <div className="h-full flex flex-col gap-[20px] p-[30px] rounded-[16px] bg-[#F5F8FA]">
         {/* Title section */}
         <EditorForm
           text={content.title ?? ''}
