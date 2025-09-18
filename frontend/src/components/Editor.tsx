@@ -117,12 +117,12 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
       className={`flex gap-[40px] items-start ${type === 'body' ? 'flex-1' : ''}`}
     >
       <div
-        className={`flex-1 flex-col rounded-[8px] ${
+        className={`p-[30px] flex-1 flex-col rounded-[8px] ${
           type === 'title'
-            ? `px-[30px] py-2 text-2xl font-bold ${isEditing ? 'bg-white' : ''}`
-            : 'bg-white h-full p-[30px]'
+            ? `py-2 text-2xl font-bold ${isEditing ? 'bg-white' : ''}`
+            : 'bg-white h-full'
         }
-        ${isEditing ? 'border border-primary' : ''}
+        ${isEditing ? 'border border-primary caret-primary' : ''}
         `}
       >
         {isEditing ? (
