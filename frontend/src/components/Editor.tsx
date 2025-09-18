@@ -23,8 +23,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const onChange = (e: React.ChangeEvent<InputElement>) => {
-    editor.setEditText(e.target.value);
-    editor.validate(e.target.value, type);
+    editor.setEditText(e.target.value, type);
   };
   const onKeyDown = (e: React.KeyboardEvent<InputElement>) => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey || type === 'title')) {
