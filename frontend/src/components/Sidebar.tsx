@@ -114,19 +114,22 @@ interface SidebarFooterProps {
 
 function SidebarFooter({ isEditing }: SidebarFooterProps) {
   const editor = useEditor();
-  const addMutation = useContentControllerAddContent();
   const queryClient = useQueryClient();
+  const addMutation = useContentControllerAddContent();
 
   const handleAddContent = useCallback(async () => {
-    addMutation.mutate({
+    const { data } = await addMutation.mutateAsync({
       data: {
         title: '新しいコンテンツ',
         body: '内容を入力してください',
       },
     });
     const listKey = getContentControllerGetAllContentListQueryKey();
-    // サーバー側で振られる serial id が不明なため、楽観的更新できないので再クエリ
-    queryClient.invalidateQueries({ queryKey: listKey });
+    // レスポンスの作成されたデータを使ってリストに楽観的追加をする
+    queryClient.setQueryData<{ data: Content[] }>(listKey, (old) => ({
+      ...old,
+      data: [...(old?.data ?? []), data],
+    }));
   }, [addMutation, queryClient]);
 
   const handleEditList = useCallback(() => editor.edit('list'), [editor]);
