@@ -133,7 +133,7 @@ function SidebarFooter({ isEditing }: SidebarFooterProps) {
         testid="list-edit-button"
       />
     );
-  }, [isEditing]);
+  }, [addMutation, editor, isEditing, queryClient]);
 
   return (
     <div className="flex justify-end p-4 gap-2 bg-brand-gray">{buttons}</div>

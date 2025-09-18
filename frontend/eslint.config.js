@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import tanstackQuery from "@tanstack/eslint-plugin-query";
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import { globalIgnores } from 'eslint/config';
@@ -19,9 +20,9 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-  },
-  {
-    plugins: ['@tanstack/query'],
-    extends: ['plugin:@tanstack/eslint-plugin-query/recommended'],
+    plugins: {
+      "@tanstack/query": tanstackQuery,
+    }
+    
   },
 ]);
