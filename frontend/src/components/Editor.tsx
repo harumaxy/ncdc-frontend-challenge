@@ -24,6 +24,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const onChange = (e: React.ChangeEvent<InputElement>) => {
     editor.setEditText(e.target.value);
+    editor.validate(e.target.value, type);
   };
   const onKeyDown = (e: React.KeyboardEvent<InputElement>) => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey || type === 'title')) {
@@ -87,6 +88,11 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
     <IconButton icon="edit" onClick={onEdit} testid={`${type}-edit-button`} />
   );
 
+  const errorMessage =
+    editor.validation.status === 'error' && editor.validation.type === type
+      ? editor.validation.errMsg
+      : null;
+
   return (
     <div
       className={`flex gap-[40px] items-start ${type === 'body' ? 'flex-1' : ''}`}
@@ -97,9 +103,18 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
         }`}
       >
         {isEditing ? (
-          form
+          <>
+            {errorMessage && (
+              <div className="text-red-500 text-sm font-medium">
+                {errorMessage}
+              </div>
+            )}
+            {form}
+          </>
         ) : (
-          <div className="w-full h-full whitespace-break-spaces">{text}</div>
+          <>
+            <div className="w-full h-full whitespace-break-spaces">{text}</div>
+          </>
         )}
       </div>
       <div className="flex gap-2 w-[160px]">{buttons}</div>
@@ -138,6 +153,7 @@ export default function Editor({ content }: { content: Content }) {
           type="title"
           onEdit={() => editor.edit('title', content.title ?? '')}
           onSave={() => {
+            if (editor.validation.status === 'error') return;
             updateMutation.mutate({
               id: content.id,
               data: { title: editor.editText, body: content.body ?? '' },
@@ -152,6 +168,7 @@ export default function Editor({ content }: { content: Content }) {
           type="body"
           onEdit={() => editor.edit('body', content.body ?? '')}
           onSave={() => {
+            if (editor.validation.status === 'error') return;
             updateMutation.mutate({
               id: content.id,
               data: { title: content.title ?? '', body: editor.editText },
