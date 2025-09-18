@@ -11,7 +11,7 @@ test('コンテンツを 作成 > 更新 > 削除 できることを確認する
   await page.goto('/');
   await page.getByTestId('list-edit-button').click();
   await page.getByRole('button', { name: 'New page New page' }).click();
-  await page.reload(); // 何故か Playwright 環境で作成時の楽観的更新が聴いていないので、一旦リロード
+  await page.reload(); // 何故か Playwright 環境で作成時の楽観的更新ができてないので、一旦リロード
   await expect(
     page
       .locator('div')
