@@ -99,7 +99,9 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
     >
       <div
         className={`pb-[20px] p-[30px] flex-1 flex-col ${
-          type === 'title' ? 'text-2xl font-bold' : 'bg-white flex-1 h-full'
+          type === 'title'
+            ? 'text-2xl font-bold'
+            : 'bg-white flex-1 h-full rounded-[8px]'
         }`}
       >
         {isEditing ? (
