@@ -90,7 +90,9 @@ function ListItem({ content, isActive, isEditing }: ListItemProps) {
   return (
     <div
       className={`p-2 h-[44px] rounded-[4px] cursor-pointer flex items-center justify-between group ${
-        isActive ? 'bg-brand-gray text-primary' : 'hover:bg-brand-gray'
+        isActive
+          ? 'bg-brand-gray text-primary font-bold'
+          : 'hover:bg-brand-gray'
       }`}
       onClick={handleClick}
     >
