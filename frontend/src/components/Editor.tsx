@@ -122,7 +122,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
             ? `py-2 text-2xl font-bold ${isEditing ? 'bg-white' : ''}`
             : 'bg-white h-full'
         }
-        ${isEditing ? 'border border-primary caret-primary' : ''}
+        ${isEditing ? 'outline outline-primary caret-primary' : ''}
         `}
       >
         {isEditing ? (
