@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r run build",
-    "dev": "pnpm build && pnpm -r run dev",
+    "dev": "pnpm -r run dev",
     "test": "pnpm -r run test"
   },
   "devDependencies": {
