@@ -107,7 +107,14 @@ const DeleteButton = React.memo(function DeleteButton({
 }: {
   onClick?: () => void;
 }) {
-  return <img src="/icon/delete.svg" width="24px" onClick={onClick} />;
+  return (
+    <img
+      src="/icon/delete.svg"
+      width="24px"
+      onClick={onClick}
+      className="hover:bg-[#E6E6E6] active:bg-[#CCC] disabled:text-[#ECECEC] rounded-[4px]"
+    />
+  );
 });
 
 interface SidebarFooterProps {

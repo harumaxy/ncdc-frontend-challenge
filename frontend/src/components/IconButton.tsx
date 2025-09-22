@@ -24,9 +24,12 @@ const icons = {
 };
 
 const variantColors = {
-  primary: 'text-white bg-primary',
-  inverted: 'text-primary bg-white border border-primary',
-  ghost: 'text-white bg-ghost',
+  primary:
+    'text-white bg-primary hover:bg-[#3C8EC5] active:bg-[#357CAB] disabled:bg-[#D3ECFE]',
+  inverted:
+    'text-primary bg-white outline outline-primary hover:bg-[#CCC] active:bg-[#B3B3B3] disabled:text-[#D3ECFE] disabled:outline-[#D3ECFE]',
+  ghost:
+    'text-white bg-ghost hover:bg-[#999] active:bg-[#808080] disabled:bg-[#ECECEC]',
 };
 
 interface IconButtonProps {
