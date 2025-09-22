@@ -148,11 +148,13 @@ function SidebarFooter({ isEditing }: SidebarFooterProps) {
       isEditing ? (
         <>
           <IconButton
+            key="left"
             icon="new-page"
             variant="inverted"
             onClick={handleAddContent}
           />
           <IconButton
+            key="right"
             icon="done"
             variant="primary"
             onClick={editor.cancelEdit}
@@ -160,8 +162,11 @@ function SidebarFooter({ isEditing }: SidebarFooterProps) {
         </>
       ) : (
         <>
-          <div className="w-32">{/* spacer */}</div>
+          <div className="w-32" key="left">
+            {/* spacer */}
+          </div>
           <IconButton
+            key="right"
             icon="edit"
             onClick={handleEditList}
             className="w-full"

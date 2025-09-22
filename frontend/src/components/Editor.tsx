@@ -81,6 +81,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
       isEditing ? (
         <>
           <IconButton
+            key="cancel"
             size={'w-16'}
             icon="cancel"
             variant="ghost"
@@ -88,6 +89,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
             data-testid={`${type}-cancel-button`}
           />
           <IconButton
+            key="save"
             size={'w-16'}
             icon="save"
             onClick={onSave}
@@ -96,6 +98,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
         </>
       ) : (
         <IconButton
+          key="edit"
           icon="edit"
           onClick={onEdit}
           testid={`${type}-edit-button`}
