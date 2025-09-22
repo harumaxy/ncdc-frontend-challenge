@@ -56,7 +56,7 @@ export default function IconButton({
     <button
       onClick={onClick}
       className={`
-        flex flex-col items-center py-1 ${size} rounded-md
+        flex flex-col items-center py-1 ${size} rounded-md min-w-[40px]
         ${colors}
       `}
       data-testid={testid}
