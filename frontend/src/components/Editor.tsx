@@ -140,7 +140,7 @@ function EditorForm({ text, type, onSave, onEdit }: EditorFormProps) {
           </>
         )}
       </div>
-      <div className="flex gap-2 w-[160px]">{buttons}</div>
+      <div className="flex justify-center gap-[10px] w-[160px]">{buttons}</div>
     </div>
   );
 }

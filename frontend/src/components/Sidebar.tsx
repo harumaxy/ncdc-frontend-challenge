@@ -159,17 +159,22 @@ function SidebarFooter({ isEditing }: SidebarFooterProps) {
           />
         </>
       ) : (
-        <IconButton
-          icon="edit"
-          onClick={handleEditList}
-          className="w-full"
-          testid="list-edit-button"
-        />
+        <>
+          <div className="w-32">{/* spacer */}</div>
+          <IconButton
+            icon="edit"
+            onClick={handleEditList}
+            className="w-full"
+            testid="list-edit-button"
+          />
+        </>
       ),
     [isEditing, handleAddContent, editor.cancelEdit, handleEditList],
   );
 
   return (
-    <div className="flex justify-end p-4 gap-2 bg-brand-gray">{buttons}</div>
+    <div className="flex justify-center p-4 gap-[10px] bg-brand-gray">
+      {buttons}
+    </div>
   );
 }
